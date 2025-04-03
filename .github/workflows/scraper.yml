@@ -34,14 +34,24 @@ jobs:
         run: |
           poetry run python main.py  # Replace with your script
 
+      - name: Determine output directory
+        id: set_output_dir
+        run: |
+          echo "output_dir=output" >> $GITHUB_ENV # default
+          if [ -d "docs" ]; then
+            echo "output_dir=docs" >> $GITHUB_ENV
+          fi
+          if [ -d "build" ]; then
+            echo "output_dir=build" >> $GITHUB_ENV
+          fi
+
       #  (Optional) Build static site - Adapt this if needed!
       - name: Build static site (if applicable)
         run: |
           #  Example: If your scraper generates a "docs" folder with HTML
           #  You might use a static site generator here, or just copy files
           mkdir -p public # create the public directory
-          cp -r output/* public/ # Copy output to public.  Change output
-                                  # to whatever directory your scraper uses
+          cp -r ${{ env.output_dir }}/* public/ # Copy output to public.
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3

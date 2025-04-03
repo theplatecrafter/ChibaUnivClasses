@@ -84,7 +84,7 @@ def create_stylesheet(output_dir):
 
 if __name__ == "__main__":
     # Example usage:
-    target_url = "https://www.example.com"  # Replace with the URL you want to scrape
+    target_url = "https://syllabus.gs.chiba-u.jp/2025/101101101076000/Z011511501/ja_JP"  # Replace with the URL you want to scrape
     output_directory = "output" # set the output
     scrape_website(target_url)
     create_stylesheet(output_directory) # create the stylesheet

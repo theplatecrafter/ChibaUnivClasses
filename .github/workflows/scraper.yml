@@ -1,0 +1,63 @@
+name: Web Scraper and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest  # Use Ubuntu for the runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Check out the repository code
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"  # Specify your Python version
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Set up Poetry environment
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+
+      - name: Install dependencies
+        run: |
+          poetry install --no-interaction --no-ansi
+
+      - name: Run scraper
+        run: |
+          poetry run python main.py  # Replace with your script
+
+      #  (Optional) Build static site - Adapt this if needed!
+      - name: Build static site (if applicable)
+        run: |
+          #  Example: If your scraper generates a "docs" folder with HTML
+          #  You might use a static site generator here, or just copy files
+          mkdir -p public
+          cp -r output/* public/ # Copy output to public.  Change output
+                                  # to whatever directory your scraper uses
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public # The directory containing your static content
+
+  deploy:
+    needs: scraper
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write      # to deploy to GitHub Pages
+      id-token: 'write'  # to verify the deployment with OIDC
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

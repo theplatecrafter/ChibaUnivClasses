@@ -1,3 +1,4 @@
+yaml
 name: Web Scraper and Deploy to GitHub Pages
 
 on:
@@ -39,13 +40,9 @@ jobs:
         run: |
           #  Example: If your scraper generates a "docs" folder with HTML
           #  You might use a static site generator here, or just copy files
-          mkdir -p public
+          mkdir -p public # create the public directory
           cp -r output/* public/ # Copy output to public.  Change output
                                   # to whatever directory your scraper uses
-          if [ ! -d "public" ]; then
-             mkdir "public"
-          fi
-          cp -r output/* public/
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3

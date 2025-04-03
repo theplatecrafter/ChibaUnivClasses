@@ -42,6 +42,10 @@ jobs:
           mkdir -p public
           cp -r output/* public/ # Copy output to public.  Change output
                                   # to whatever directory your scraper uses
+          if [ ! -d "public" ]; then
+             mkdir "public"
+          fi
+          cp -r output/* public/
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3

@@ -85,11 +85,11 @@ def create_stylesheet(output_dir):
         f.write(css_content)
     print(f"Created stylesheet: {css_file}")
 
-if __name__ == "__main__":
-    # Example usage:
-    target_url = "https://en.wikipedia.org/wiki/Dieterich_Buxtehude"  # Replace with the URL you want to scrape
-    output_directory = "output" # set the output
-    os.makedirs(output_directory, exist_ok=True) # Ensure the output directory exists
-    scrape_website(target_url)
-    create_stylesheet(output_directory) # create the stylesheet
-    print("Scraping complete.")
+
+# Example usage:
+target_url = "https://en.wikipedia.org/wiki/Dieterich_Buxtehude"  # Replace with the URL you want to scrape
+output_directory = "output" # set the output
+os.makedirs(output_directory, exist_ok=True) # Ensure the output directory exists
+scrape_website(target_url)
+create_stylesheet(output_directory) # create the stylesheet
+print("Scraping complete.")
